@@ -1,4 +1,4 @@
-# QUrbiz - Scraper & Agent Framework
+# GeoValor - Scraper & Agent Framework
 
 Este projeto tem um duplo propósito:
 
