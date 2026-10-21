@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+    # Serviço da Aplicação
+    qurbiz-scraper:
+        build: .
+        container_name: qurbiz-scraper
+        ports:
+            - '3001:3001'
+        environment:
+            # Use as credenciais e o nome do serviço 'mongo' definido abaixo
+            - MONGO_URI=mongodb://qurbizuser:qurbizpass@mongo:27017/qurbizdb?authSource=admin
+            - LOG_LEVEL=info
+            - NODE_ENV=production
+        depends_on:
+            - mongo
+        restart: unless-stopped
+
+    # Serviço do MongoDB
+    mongo:
+        image: mongo:latest
+        container_name: mongo
+        ports:
+            - '27017:27017'
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=qurbizuser
+            - MONGO_INITDB_ROOT_PASSWORD=qurbizpass
+        volumes:
+            - mongo-data:/data/db
+        restart: unless-stopped
+
+    # Serviço do Prometheus
+    prometheus:
+        image: prom/prometheus:latest
+        container_name: prometheus
+        ports:
+            - '9090:9090'
+        volumes:
+            - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+            - prometheus-data:/prometheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+        depends_on:
+            - qurbiz-scraper
+        restart: unless-stopped
+
+    # Serviço do Grafana
+    grafana:
+        image: grafana/grafana-oss:latest
+        container_name: grafana
+        ports:
+            - '3000:3000'
+        volumes:
+            - grafana-data:/var/lib/grafana
+            - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+            - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+            - ./grafana/dashboards:/var/lib/grafana/dashboards
+        depends_on:
+            - prometheus
+        restart: unless-stopped
+
+volumes:
+    mongo-data:
+    prometheus-data:
+    grafana-data:

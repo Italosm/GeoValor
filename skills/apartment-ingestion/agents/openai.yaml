@@ -1,0 +1,7 @@
+interface:
+  display_name: "Apartment Ingestion"
+  short_description: "Scrapers, mappers, and sync flows"
+  default_prompt: "Use $apartment-ingestion to add or update a source scraper, mapper, or sync flow in this project."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "project": "scripts",
+  "agents": [
+    {
+      "id": "repo-architect",
+      "file": ".agents/agents/repo-architect.md",
+      "purpose": "Guide cross-cutting decisions, module boundaries, and project shape.",
+      "when_to_use": [
+        "a change crosses multiple modules",
+        "you need to decide where new code belongs",
+        "you are planning a new shared abstraction"
+      ]
+    },
+    {
+      "id": "scraper-engineer",
+      "file": ".agents/agents/scraper-engineer.md",
+      "purpose": "Own source scraping, selectors, mappers, and sync flows.",
+      "when_to_use": [
+        "a source scraper changes",
+        "selectors or HTML contracts move",
+        "a new source needs onboarding"
+      ]
+    },
+    {
+      "id": "data-steward",
+      "file": ".agents/agents/data-steward.md",
+      "purpose": "Protect Prisma schema, repository behavior, and persistence invariants.",
+      "when_to_use": [
+        "a schema or migration changes",
+        "upsert logic changes",
+        "data consistency needs review"
+      ]
+    }
+  ],
+  "subagents": [
+    {
+      "id": "source-analyst",
+      "file": ".agents/subagents/source-analyst.md",
+      "parent": "scraper-engineer",
+      "purpose": "Map a new source into selectors, fields, and fixture shape."
+    },
+    {
+      "id": "extraction-debugger",
+      "file": ".agents/subagents/extraction-debugger.md",
+      "parent": "scraper-engineer",
+      "purpose": "Trace broken scraping selectors or pagination behavior."
+    },
+    {
+      "id": "persistence-auditor",
+      "file": ".agents/subagents/persistence-auditor.md",
+      "parent": "data-steward",
+      "purpose": "Check repository writes, schema alignment, and idempotency."
+    }
+  ],
+  "skills": [
+    {
+      "id": "apartment-ingestion",
+      "path": "skills/apartment-ingestion"
+    },
+    {
+      "id": "project-harness",
+      "path": "skills/project-harness"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Project Harness"
+  short_description: "Repository checks and validation"
+  default_prompt: "Use $project-harness to add, run, or extend the repository harness and verification checks."
+
+policy:
+  allow_implicit_invocation: true
