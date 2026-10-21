@@ -1,0 +1,2 @@
+# Ignora arquivos HTML da contagem de linguagens (ajuste o caminho onde eles ficam)
+*.html linguist-detectable=false
